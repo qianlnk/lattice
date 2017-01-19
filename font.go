@@ -23,7 +23,8 @@ type Font struct {
 
 func NewFont(size int, typeface, fore, back string) *Font {
 	var code string
-	if runtime.GOOS == "linux" {
+	//fmt.Println(runtime.GOOS)
+	if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
 		code = "utf-8"
 	} else {
 		code = "gb2312"
@@ -78,7 +79,7 @@ func (f *Font) GetHZ(path string, words []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("16*(f.Size/8)", f.Size*(size/8))
+	//fmt.Println("16*(f.Size/8)", f.Size*(size/8))
 	res := make([]byte, f.Size*(size/8))
 	_, err = hzk.Read(res)
 	if err != nil {
@@ -94,7 +95,7 @@ func (f *Font) GetBitmap(path, word string) ([]byte, error) {
 	}
 
 	words := []byte(word)
-	fmt.Println("words", words)
+	//fmt.Println("words", words)
 	if len(words) < 2 {
 		return f.GetZM(path, words)
 	}
@@ -104,10 +105,10 @@ func (f *Font) GetBitmap(path, word string) ([]byte, error) {
 
 func (f *Font) Print(buf []byte) {
 	key := []byte{0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01}
-	fmt.Println(len(buf))
-	for i := 0; i < len(buf); i++ {
-		fmt.Printf("%02x ", buf[i])
-	}
+	//fmt.Println(len(buf))
+	//for i := 0; i < len(buf); i++ {
+	//	fmt.Printf("%02x ", buf[i])
+	//}
 	fmt.Println()
 	var size int
 	size = f.Size
